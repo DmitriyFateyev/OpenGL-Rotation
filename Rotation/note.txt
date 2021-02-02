@@ -1,0 +1,47 @@
+//https://www.gamedev.net/forums/topic/304550-object-rotation-on-local-axis-in-opnegl/
+private void Redraw3(object sender, EventArgs e)
+        {
+            /*
+            glClear(...);
+            glLoadIdentity();
+            // perform camera rotations, translations, ect... here
+
+            glPushMatrix();
+            glLoadIdentity();
+
+            glRotate(angle, 0, 1, 0); // rotate model around y-axis
+            glGetMatrixf(GL_MODELVIEW, mat);
+            multiplyMatrices(local_matrix, mat);
+
+            glPopMatrix();
+            glMultMatrixf(local_matrix);
+            */
+            Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT | Gl.GL_STENCIL_BUFFER_BIT);
+            Gl.glMatrixMode(Gl.GL_MODELVIEW);
+            Gl.glLoadIdentity();
+            Gl.glTranslated(positionX, positionY, positionZ);
+
+            Gl.glPushMatrix();
+            Gl.glLoadIdentity();
+            
+            yaw = trckBarYaw.Value * DEG2RAD;
+            pitch = trckBarPitch.Value * DEG2RAD;
+            roll = trckBarRoll.Value * DEG2RAD;
+
+            euler2rm(yaw, pitch, roll, matrix2);
+
+            Gl.glLoadMatrixf(matrix2);
+            
+            Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, mat);
+            matrixMultiply(matrix2, mat, matrixData);
+            
+            Gl.glPopMatrix();
+
+            Gl.glMultMatrixf(matrixData);
+            DrawModel();
+            RefreshLabels(); //GUI "Model View" matrix values		
+            
+            //Gl.glMultMatrixf(local_matrix);
+            Gl.glFlush();
+            AnT.Invalidate();
+        }
