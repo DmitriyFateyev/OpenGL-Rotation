@@ -66,6 +66,9 @@ namespace Rotation
         float[] matrix2 = new float[16];        // Rotation matrix values.
         float[] mat = new float[16];
         float[] local_matrix = new float[16];
+        float[] matrixX = new float[16];
+        float[] matrixY = new float[16];
+        float[] matrixZ = new float[16];
 
         Quaternion myQuat = new Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
         Quaternion identityQuaternion = new Quaternion(1.0f, 0.0f, 0.0f, 0.0f); // Global identity quaternion.
@@ -80,6 +83,8 @@ namespace Rotation
 
         float[] vAmbientLightBright = new float[] { 0.6f, 0.6f, 0.6f, 1.0f };
         float[] vAmbientLightDark = new float[] { 0.2f, 0.2f, 0.2f, 1.0f };
+        private double angleX, angleY, angleZ = 0;
+        private double delta = 1;
 
 
         // Routine to multiply two quaternions.
@@ -532,7 +537,71 @@ namespace Rotation
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, mobj);
             Gl.glPopMatrix();
             */
-            this.Invoke(new EventHandler(Redraw3));
+            this.Invoke(new EventHandler(_redrawMatrix));//_redrawMatrix
+        }
+
+        private void _redrawMatrix(object sender, EventArgs e)
+        {
+            Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT | Gl.GL_STENCIL_BUFFER_BIT);
+            Gl.glMatrixMode(Gl.GL_MODELVIEW);
+            Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, matrixData);
+            Gl.glPushMatrix();
+            Gl.glLoadIdentity();
+            //Gl.glTranslated(positionX, positionY, positionZ);
+
+            //================= Matrix Multiplication Rotation Animation =================
+            if (angleZ < 45)
+            {
+                angleZ += delta;                
+            } else if(angleY < 90)
+            {
+                angleY += delta;
+            } else if(angleX < 90)
+            {
+                angleX += delta;
+            }
+
+            matrixIdentity(matrixX);
+            matrixIdentity(matrixY);
+            matrixIdentity(matrixZ);
+            matrixIdentity(mat);
+            matrixIdentity(local_matrix);
+
+            // Rotate around Z
+            matrixZ[0] =  (float)Math.Cos(angleZ * DEG2RAD);
+            matrixZ[1] =  (float)Math.Sin(angleZ * DEG2RAD);
+            matrixZ[4] = -(float)Math.Sin(angleZ * DEG2RAD);
+            matrixZ[5] =  (float)Math.Cos(angleZ * DEG2RAD);
+
+            // Rotate around Y
+            matrixY[0] =  (float)Math.Cos(angleY * DEG2RAD);
+            matrixY[2] = -(float)Math.Sin(angleY * DEG2RAD);
+            matrixY[8] =  (float)Math.Sin(angleY * DEG2RAD);
+            matrixY[10] = (float)Math.Cos(angleY * DEG2RAD);
+
+            // Rotate around X
+            matrixX[5] =  (float)Math.Cos(angleX * DEG2RAD);
+            matrixX[6] =  (float)Math.Sin(angleX * DEG2RAD);
+            matrixX[9] = -(float)Math.Sin(angleX * DEG2RAD);
+            matrixX[10] = (float)Math.Cos(angleX * DEG2RAD);
+
+            matrixMultiply(matrixZ, matrixY, local_matrix);
+            matrixMultiply(local_matrix, matrixX, mat);
+            mat[14] = -200;
+            //matrixX = mTranspose4x4(matrixX);
+
+            Gl.glLoadMatrixf(mat);
+            //Gl.glLoadTransposeMatrixf(matrixX);
+            //Gl.glMultMatrixf(matrixX);
+
+            //==================================================================
+
+            RefreshLabels(); //GUI "Model View" matrix values		
+            DrawModel();
+            //Gl.glTranslated(positionX, positionY, -positionZ);
+            Gl.glPopMatrix();
+            Gl.glFlush();
+            AnT.Invalidate();
         }
 
         private void Redraw3(object sender, EventArgs e)
@@ -782,20 +851,20 @@ namespace Rotation
             // очистка буфера цвета и буфера глубины
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT | Gl.GL_STENCIL_BUFFER_BIT);
             Gl.glLoadIdentity();
-            Gl.glPushMatrix();
+            //Gl.glPushMatrix();
 
-            Gl.glTranslated(positionX, positionY, positionZ);
+            Gl.glTranslated(positionX, positionY, -100);
 
             q0 = AngleAxis(yaw * ((float)Math.PI / 180.0f), 0, 1, 0);
             q1 = AngleAxis(roll * ((float)Math.PI / 180.0f), 1, 0, 0);
             q2 = AngleAxis(pitch * ((float)Math.PI / 180.0f), 0, 0, 1);
-            q = multiplyQuaternions(multiplyQuaternions(q0, q1), q2);
+            q = multiplyQuaternions(q0, multiplyQuaternions(q1, q2));
 
             //			if (t < 1.0) t += 0.04f;
-            //			q = eulerAnglesToQuaternion(roll, pitch, yaw);
+            q = eulerAnglesToQuaternion(roll, pitch, yaw);
             q = quaternion_normalize(q);
-            //      		qInterpolated = slerp(identityQuaternion, q, t);
-            //      		qInterpolated = quaternion_normalize(qInterpolated);
+            qInterpolated = slerp(identityQuaternion, q, t);
+            qInterpolated = quaternion_normalize(qInterpolated);
             r = quaternionToRotationMatrix(q);
             writeMatrixData(r);
 
@@ -805,6 +874,7 @@ namespace Rotation
                 matrixDataT[i] = r.getMatrixData(i);
             }
             matrixMultiply(matrixData, matrixDataT, matrix2);
+            
             Gl.glMultMatrixf(matrix2);
 
             RefreshLabels();
@@ -997,8 +1067,8 @@ namespace Rotation
 
             Gl.glColor4f(0.56f, 0.56f, 0.56f, 1.0f);
             //Glut.glutWireSphere(30, 16, 16);
-            //Glut.glutWireCube(30);
-            Glut.glutSolidTeapot(30);
+            Glut.glutWireCube(30);
+            //Glut.glutSolidTeapot(30);
         }
 
         double quaternion_length(Quaternion q)
