@@ -159,6 +159,7 @@ namespace Rotation
             this.AnT = new Tao.Platform.Windows.SimpleOpenGlControl();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.cbxAnimate = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -188,6 +189,7 @@ namespace Rotation
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.cbxAnimate);
             this.splitContainer1.Panel1.Controls.Add(this.btnResetTranslation);
             this.splitContainer1.Panel1.Controls.Add(this.btnResetRotation);
             this.splitContainer1.Panel1.Controls.Add(this.groupBoxTranslation);
@@ -885,6 +887,16 @@ namespace Rotation
             this.timer1.Interval = 30;
             this.timer1.Tick += new System.EventHandler(this.Timer1Tick);
             // 
+            // cbxAnimate
+            // 
+            this.cbxAnimate.AutoSize = true;
+            this.cbxAnimate.Location = new System.Drawing.Point(430, 82);
+            this.cbxAnimate.Name = "cbxAnimate";
+            this.cbxAnimate.Size = new System.Drawing.Size(64, 17);
+            this.cbxAnimate.TabIndex = 2;
+            this.cbxAnimate.Text = "Animate";
+            this.cbxAnimate.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -897,6 +909,7 @@ namespace Rotation
             this.Text = "Rotation";
             this.Load += new System.EventHandler(this.MainFormLoad);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -939,5 +952,6 @@ namespace Rotation
         private System.Windows.Forms.Label lbE2RM7;
         private System.Windows.Forms.Label lbE2RM8;
         private System.Windows.Forms.TextBox tbX;
+        private System.Windows.Forms.CheckBox cbxAnimate;
     }
 }

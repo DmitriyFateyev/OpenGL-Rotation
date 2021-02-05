@@ -547,20 +547,30 @@ namespace Rotation
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, matrixData);
             Gl.glPushMatrix();
             Gl.glLoadIdentity();
-            //Gl.glTranslated(positionX, positionY, positionZ);
 
             //================= Matrix Multiplication Rotation Animation =================
-            if (angleZ < 45)
+            if(cbxAnimate.Checked)
             {
-                angleZ += delta;                
-            } else if(angleY < 90)
+                if (angleZ < 45)
+                {
+                    angleZ += delta;
+                }
+                else if (angleY < 90)
+                {
+                    angleY += delta;
+                }
+                else if (angleX < 90)
+                {
+                    angleX += delta;
+                }
+            } 
+            else
             {
-                angleY += delta;
-            } else if(angleX < 90)
-            {
-                angleX += delta;
+                angleX = roll;
+                angleY = pitch;
+                angleZ = yaw;
             }
-
+            
             matrixIdentity(matrixX);
             matrixIdentity(matrixY);
             matrixIdentity(matrixZ);
@@ -588,17 +598,13 @@ namespace Rotation
             matrixMultiply(matrixZ, matrixY, local_matrix);
             matrixMultiply(local_matrix, matrixX, mat);
             mat[14] = -200;
-            //matrixX = mTranspose4x4(matrixX);
 
             Gl.glLoadMatrixf(mat);
-            //Gl.glLoadTransposeMatrixf(matrixX);
-            //Gl.glMultMatrixf(matrixX);
-
             //==================================================================
 
-            RefreshLabels(); //GUI "Model View" matrix values		
             DrawModel();
-            //Gl.glTranslated(positionX, positionY, -positionZ);
+            RefreshLabels(); //GUI "Model View" matrix values		
+
             Gl.glPopMatrix();
             Gl.glFlush();
             AnT.Invalidate();
