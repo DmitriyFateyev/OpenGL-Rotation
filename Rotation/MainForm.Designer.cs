@@ -17,15 +17,15 @@ namespace Rotation
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private Tao.Platform.Windows.SimpleOpenGlControl AnT;
 		private System.Windows.Forms.GroupBox groupBoxRotation;
-		private System.Windows.Forms.Label lblYawValue;
 		private System.Windows.Forms.Label lblPitchValue;
+		private System.Windows.Forms.Label lblYawValue;
 		private System.Windows.Forms.Label lblRollValue;
-		private System.Windows.Forms.TrackBar trckBarYaw;
-		private System.Windows.Forms.TrackBar trckBarPitch;
+		private System.Windows.Forms.TrackBar trckBarYawY;
+		private System.Windows.Forms.TrackBar trckBarPitchZ;
 		private System.Windows.Forms.Label lblYaw;
 		private System.Windows.Forms.Label lblPitch;
 		private System.Windows.Forms.Label lblRoll;
-		private System.Windows.Forms.TrackBar trckBarRoll;
+		private System.Windows.Forms.TrackBar trckBarRollX;
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.GroupBox groupBoxTranslation;
 		private System.Windows.Forms.Label lblZTranslation;
@@ -104,15 +104,18 @@ namespace Rotation
             this.lblX = new System.Windows.Forms.Label();
             this.trckBarX = new System.Windows.Forms.TrackBar();
             this.groupBoxRotation = new System.Windows.Forms.GroupBox();
-            this.lblYawValue = new System.Windows.Forms.Label();
+            this.btnSetZtoZero = new System.Windows.Forms.Button();
+            this.btnSetYtoZero = new System.Windows.Forms.Button();
+            this.btnSetXtoZero = new System.Windows.Forms.Button();
             this.lblPitchValue = new System.Windows.Forms.Label();
+            this.lblYawValue = new System.Windows.Forms.Label();
             this.lblRollValue = new System.Windows.Forms.Label();
-            this.trckBarYaw = new System.Windows.Forms.TrackBar();
-            this.trckBarPitch = new System.Windows.Forms.TrackBar();
+            this.trckBarYawY = new System.Windows.Forms.TrackBar();
+            this.trckBarPitchZ = new System.Windows.Forms.TrackBar();
             this.lblYaw = new System.Windows.Forms.Label();
             this.lblPitch = new System.Windows.Forms.Label();
             this.lblRoll = new System.Windows.Forms.Label();
-            this.trckBarRoll = new System.Windows.Forms.TrackBar();
+            this.trckBarRollX = new System.Windows.Forms.TrackBar();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tbX = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -169,9 +172,9 @@ namespace Rotation
             ((System.ComponentModel.ISupportInitialize)(this.trckBarY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trckBarX)).BeginInit();
             this.groupBoxRotation.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trckBarYaw)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trckBarPitch)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trckBarRoll)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trckBarYawY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trckBarPitchZ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trckBarRollX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -183,6 +186,7 @@ namespace Rotation
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -198,14 +202,14 @@ namespace Rotation
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(974, 811);
-            this.splitContainer1.SplitterDistance = 175;
+            this.splitContainer1.Size = new System.Drawing.Size(984, 881);
+            this.splitContainer1.SplitterDistance = 172;
             this.splitContainer1.TabIndex = 0;
             // 
             // cbxAnimate
             // 
             this.cbxAnimate.AutoSize = true;
-            this.cbxAnimate.Location = new System.Drawing.Point(430, 82);
+            this.cbxAnimate.Location = new System.Drawing.Point(453, 82);
             this.cbxAnimate.Name = "cbxAnimate";
             this.cbxAnimate.Size = new System.Drawing.Size(64, 17);
             this.cbxAnimate.TabIndex = 2;
@@ -224,7 +228,7 @@ namespace Rotation
             // 
             // btnResetRotation
             // 
-            this.btnResetRotation.Location = new System.Drawing.Point(430, 14);
+            this.btnResetRotation.Location = new System.Drawing.Point(453, 14);
             this.btnResetRotation.Name = "btnResetRotation";
             this.btnResetRotation.Size = new System.Drawing.Size(91, 46);
             this.btnResetRotation.TabIndex = 1;
@@ -245,7 +249,7 @@ namespace Rotation
             this.groupBoxTranslation.Controls.Add(this.trckBarX);
             this.groupBoxTranslation.Location = new System.Drawing.Point(550, 12);
             this.groupBoxTranslation.Name = "groupBoxTranslation";
-            this.groupBoxTranslation.Size = new System.Drawing.Size(412, 160);
+            this.groupBoxTranslation.Size = new System.Drawing.Size(423, 160);
             this.groupBoxTranslation.TabIndex = 0;
             this.groupBoxTranslation.TabStop = false;
             this.groupBoxTranslation.Text = "Translation";
@@ -330,31 +334,54 @@ namespace Rotation
             // 
             // groupBoxRotation
             // 
-            this.groupBoxRotation.Controls.Add(this.lblYawValue);
+            this.groupBoxRotation.Controls.Add(this.btnSetZtoZero);
+            this.groupBoxRotation.Controls.Add(this.btnSetYtoZero);
+            this.groupBoxRotation.Controls.Add(this.btnSetXtoZero);
             this.groupBoxRotation.Controls.Add(this.lblPitchValue);
+            this.groupBoxRotation.Controls.Add(this.lblYawValue);
             this.groupBoxRotation.Controls.Add(this.lblRollValue);
-            this.groupBoxRotation.Controls.Add(this.trckBarYaw);
-            this.groupBoxRotation.Controls.Add(this.trckBarPitch);
+            this.groupBoxRotation.Controls.Add(this.trckBarYawY);
+            this.groupBoxRotation.Controls.Add(this.trckBarPitchZ);
             this.groupBoxRotation.Controls.Add(this.lblYaw);
             this.groupBoxRotation.Controls.Add(this.lblPitch);
             this.groupBoxRotation.Controls.Add(this.lblRoll);
-            this.groupBoxRotation.Controls.Add(this.trckBarRoll);
+            this.groupBoxRotation.Controls.Add(this.trckBarRollX);
             this.groupBoxRotation.Location = new System.Drawing.Point(12, 12);
             this.groupBoxRotation.Name = "groupBoxRotation";
-            this.groupBoxRotation.Size = new System.Drawing.Size(412, 160);
+            this.groupBoxRotation.Size = new System.Drawing.Size(435, 160);
             this.groupBoxRotation.TabIndex = 0;
             this.groupBoxRotation.TabStop = false;
             this.groupBoxRotation.Text = "Rotation";
             // 
-            // lblYawValue
+            // btnSetZtoZero
             // 
-            this.lblYawValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblYawValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.lblYawValue.Location = new System.Drawing.Point(363, 112);
-            this.lblYawValue.Name = "lblYawValue";
-            this.lblYawValue.Size = new System.Drawing.Size(39, 23);
-            this.lblYawValue.TabIndex = 8;
-            this.lblYawValue.Text = "0";
+            this.btnSetZtoZero.Location = new System.Drawing.Point(408, 104);
+            this.btnSetZtoZero.Name = "btnSetZtoZero";
+            this.btnSetZtoZero.Size = new System.Drawing.Size(21, 28);
+            this.btnSetZtoZero.TabIndex = 1;
+            this.btnSetZtoZero.Text = "0";
+            this.btnSetZtoZero.UseVisualStyleBackColor = true;
+            this.btnSetZtoZero.Click += new System.EventHandler(this.btnSetZtoZero_Click);
+            // 
+            // btnSetYtoZero
+            // 
+            this.btnSetYtoZero.Location = new System.Drawing.Point(408, 59);
+            this.btnSetYtoZero.Name = "btnSetYtoZero";
+            this.btnSetYtoZero.Size = new System.Drawing.Size(21, 28);
+            this.btnSetYtoZero.TabIndex = 1;
+            this.btnSetYtoZero.Text = "0";
+            this.btnSetYtoZero.UseVisualStyleBackColor = true;
+            this.btnSetYtoZero.Click += new System.EventHandler(this.btnSetYtoZero_Click);
+            // 
+            // btnSetXtoZero
+            // 
+            this.btnSetXtoZero.Location = new System.Drawing.Point(408, 14);
+            this.btnSetXtoZero.Name = "btnSetXtoZero";
+            this.btnSetXtoZero.Size = new System.Drawing.Size(21, 28);
+            this.btnSetXtoZero.TabIndex = 1;
+            this.btnSetXtoZero.Text = "0";
+            this.btnSetXtoZero.UseVisualStyleBackColor = true;
+            this.btnSetXtoZero.Click += new System.EventHandler(this.btnSetXtoZero_Click);
             // 
             // lblPitchValue
             // 
@@ -363,8 +390,18 @@ namespace Rotation
             this.lblPitchValue.Location = new System.Drawing.Point(363, 64);
             this.lblPitchValue.Name = "lblPitchValue";
             this.lblPitchValue.Size = new System.Drawing.Size(39, 23);
-            this.lblPitchValue.TabIndex = 7;
+            this.lblPitchValue.TabIndex = 8;
             this.lblPitchValue.Text = "0";
+            // 
+            // lblYawValue
+            // 
+            this.lblYawValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblYawValue.ForeColor = System.Drawing.Color.LimeGreen;
+            this.lblYawValue.Location = new System.Drawing.Point(363, 109);
+            this.lblYawValue.Name = "lblYawValue";
+            this.lblYawValue.Size = new System.Drawing.Size(39, 23);
+            this.lblYawValue.TabIndex = 7;
+            this.lblYawValue.Text = "0";
             // 
             // lblRollValue
             // 
@@ -376,30 +413,32 @@ namespace Rotation
             this.lblRollValue.TabIndex = 6;
             this.lblRollValue.Text = "0";
             // 
-            // trckBarYaw
+            // trckBarYawY
             // 
-            this.trckBarYaw.Location = new System.Drawing.Point(34, 64);
-            this.trckBarYaw.Maximum = 180;
-            this.trckBarYaw.Name = "trckBarYaw";
-            this.trckBarYaw.Size = new System.Drawing.Size(323, 45);
-            this.trckBarYaw.TabIndex = 5;
-            this.trckBarYaw.TickFrequency = 10;
-            this.trckBarYaw.Scroll += new System.EventHandler(this.TrckBarYawScroll);
+            this.trckBarYawY.Location = new System.Drawing.Point(34, 64);
+            this.trckBarYawY.Maximum = 180;
+            this.trckBarYawY.Name = "trckBarYawY";
+            this.trckBarYawY.Size = new System.Drawing.Size(323, 45);
+            this.trckBarYawY.TabIndex = 5;
+            this.trckBarYawY.TickFrequency = 10;
+            this.trckBarYawY.Scroll += new System.EventHandler(this.TrckBarYawScroll);
+            this.trckBarYawY.ValueChanged += new System.EventHandler(this.trckBarYawY_ValueChanged);
             // 
-            // trckBarPitch
+            // trckBarPitchZ
             // 
-            this.trckBarPitch.Location = new System.Drawing.Point(34, 109);
-            this.trckBarPitch.Maximum = 90;
-            this.trckBarPitch.Name = "trckBarPitch";
-            this.trckBarPitch.Size = new System.Drawing.Size(323, 45);
-            this.trckBarPitch.TabIndex = 4;
-            this.trckBarPitch.TickFrequency = 10;
-            this.trckBarPitch.Scroll += new System.EventHandler(this.TrckBarPitchScroll);
+            this.trckBarPitchZ.Location = new System.Drawing.Point(34, 109);
+            this.trckBarPitchZ.Maximum = 90;
+            this.trckBarPitchZ.Name = "trckBarPitchZ";
+            this.trckBarPitchZ.Size = new System.Drawing.Size(323, 45);
+            this.trckBarPitchZ.TabIndex = 4;
+            this.trckBarPitchZ.TickFrequency = 10;
+            this.trckBarPitchZ.Scroll += new System.EventHandler(this.TrckBarPitchScroll);
+            this.trckBarPitchZ.ValueChanged += new System.EventHandler(this.trckBarPitchZ_ValueChanged);
             // 
             // lblYaw
             // 
             this.lblYaw.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblYaw.ForeColor = System.Drawing.Color.Lime;
+            this.lblYaw.ForeColor = System.Drawing.Color.LimeGreen;
             this.lblYaw.Location = new System.Drawing.Point(7, 109);
             this.lblYaw.Name = "lblYaw";
             this.lblYaw.Size = new System.Drawing.Size(21, 23);
@@ -426,15 +465,16 @@ namespace Rotation
             this.lblRoll.TabIndex = 1;
             this.lblRoll.Text = "X";
             // 
-            // trckBarRoll
+            // trckBarRollX
             // 
-            this.trckBarRoll.Location = new System.Drawing.Point(34, 19);
-            this.trckBarRoll.Maximum = 180;
-            this.trckBarRoll.Name = "trckBarRoll";
-            this.trckBarRoll.Size = new System.Drawing.Size(323, 45);
-            this.trckBarRoll.TabIndex = 0;
-            this.trckBarRoll.TickFrequency = 10;
-            this.trckBarRoll.Scroll += new System.EventHandler(this.TrckBarRollScroll);
+            this.trckBarRollX.Location = new System.Drawing.Point(34, 19);
+            this.trckBarRollX.Maximum = 180;
+            this.trckBarRollX.Name = "trckBarRollX";
+            this.trckBarRollX.Size = new System.Drawing.Size(323, 45);
+            this.trckBarRollX.TabIndex = 0;
+            this.trckBarRollX.TickFrequency = 10;
+            this.trckBarRollX.Scroll += new System.EventHandler(this.TrckBarRollScroll);
+            this.trckBarRollX.ValueChanged += new System.EventHandler(this.trckBarRollX_ValueChanged);
             // 
             // splitContainer2
             // 
@@ -461,8 +501,9 @@ namespace Rotation
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.AnT);
-            this.splitContainer2.Size = new System.Drawing.Size(974, 632);
+            this.splitContainer2.Size = new System.Drawing.Size(984, 705);
             this.splitContainer2.SplitterDistance = 266;
+            this.splitContainer2.SplitterWidth = 2;
             this.splitContainer2.TabIndex = 1;
             // 
             // tbX
@@ -887,7 +928,7 @@ namespace Rotation
             this.AnT.DepthBits = ((byte)(16));
             this.AnT.Location = new System.Drawing.Point(3, 3);
             this.AnT.Name = "AnT";
-            this.AnT.Size = new System.Drawing.Size(698, 626);
+            this.AnT.Size = new System.Drawing.Size(700, 700);
             this.AnT.StencilBits = ((byte)(0));
             this.AnT.TabIndex = 0;
             // 
@@ -901,7 +942,7 @@ namespace Rotation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(974, 811);
+            this.ClientSize = new System.Drawing.Size(984, 881);
             this.Controls.Add(this.splitContainer1);
             this.MaximizeBox = false;
             this.Name = "MainForm";
@@ -920,9 +961,9 @@ namespace Rotation
             ((System.ComponentModel.ISupportInitialize)(this.trckBarX)).EndInit();
             this.groupBoxRotation.ResumeLayout(false);
             this.groupBoxRotation.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trckBarYaw)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trckBarPitch)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trckBarRoll)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trckBarYawY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trckBarPitchZ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trckBarRollX)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -953,5 +994,8 @@ namespace Rotation
         private System.Windows.Forms.Label lbE2RM8;
         private System.Windows.Forms.TextBox tbX;
         private System.Windows.Forms.CheckBox cbxAnimate;
+        private System.Windows.Forms.Button btnSetZtoZero;
+        private System.Windows.Forms.Button btnSetYtoZero;
+        private System.Windows.Forms.Button btnSetXtoZero;
     }
 }

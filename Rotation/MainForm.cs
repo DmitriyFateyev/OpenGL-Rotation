@@ -46,12 +46,12 @@ namespace Rotation
         float positionY = 0.0f;
         float positionZ = -200.0f;
 
-        float roll = 0;
-        float pitch = 0;
-        float yaw = 0;
-        float roll_old = 0;
-        float pitch_old = 0;
-        float yaw_old = 0;
+        double roll = 0;
+        double pitch = 0;
+        double yaw = 0;
+        double roll_old = 0;
+        double pitch_old = 0;
+        double yaw_old = 0;
 
         float R = 0.0f;
         float P = 0.0f;
@@ -61,6 +61,7 @@ namespace Rotation
         int matrixLength = 0;
 
         RotationMatrix myRotationMatrix;
+        double[] matrixDouble = new double[16];     // Rotation matrix values.
         float[] matrixData = new float[16];     // Rotation matrix values.
         float[] matrixDataT = new float[16];    // Rotation matrix values.
         float[] matrix2 = new float[16];        // Rotation matrix values.
@@ -237,9 +238,9 @@ namespace Rotation
 
         void MainFormLoad(object sender, EventArgs e)
         {
-            trckBarPitch.Minimum = -90;
-            trckBarRoll.Minimum = -180;
-            trckBarYaw.Minimum = -180;
+            trckBarPitchZ.Minimum = -90;
+            trckBarRollX.Minimum = -180;
+            trckBarYawY.Minimum = -180;
 
             trckBarX.Minimum = -100;
             trckBarY.Minimum = -100;
@@ -296,6 +297,7 @@ namespace Rotation
             matrixIdentity(matrixData);
             matrixIdentity(local_matrix);
             matrixIdentity(mat);
+            matrixDouble[0] = matrixDouble[5] = matrixDouble[10] = matrixDouble[15] = 1d;
 
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, mobj);
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, meye);
@@ -303,20 +305,17 @@ namespace Rotation
 
         void TrckBarRollScroll(object sender, EventArgs e)
         {
-            lblRollValue.Text = trckBarRoll.Value.ToString();
-            roll = trckBarRoll.Value;
+            
         }
 
         void TrckBarPitchScroll(object sender, EventArgs e)
         {
-            lblPitchValue.Text = trckBarPitch.Value.ToString();
-            pitch = trckBarPitch.Value;
+           
         }
 
         void TrckBarYawScroll(object sender, EventArgs e)
         {
-            lblYawValue.Text = trckBarYaw.Value.ToString();
-            yaw = trckBarYaw.Value;
+            
         }
         void TrckBarXScroll(object sender, EventArgs e)
         {
@@ -335,13 +334,13 @@ namespace Rotation
         }
         void BtnResetRotationClick(object sender, EventArgs e)
         {
-            trckBarRoll.Value = 0;
-            trckBarPitch.Value = 0;
-            trckBarYaw.Value = 0;
+            trckBarRollX.Value = 0;
+            trckBarPitchZ.Value = 0;
+            trckBarYawY.Value = 0;
 
             lblRollValue.Text = "0";
-            lblPitchValue.Text = "0";
             lblYawValue.Text = "0";
+            lblPitchValue.Text = "0";
 
             roll = 0;
             pitch = 0;
@@ -352,8 +351,8 @@ namespace Rotation
 
             t = 0.0f;
             // Initialize global matrixData. 
-            for (int i = 0; i < 16; i++) matrixData[i] = 0.0f;
-            matrixData[0] = matrixData[5] = matrixData[10] = matrixData[15] = 1.0f;
+            for (int i = 0; i < 16; i++) matrixDouble[i] = 0.0f;
+            matrixDouble[0] = matrixDouble[5] = matrixDouble[10] = matrixDouble[15] = 1.0f;
 
             for (int i = 0; i < 16; i++) matrix2[i] = 0.0f;
             matrix2[0] = matrix2[5] = matrix2[10] = matrix2[15] = 1.0f;
@@ -418,15 +417,15 @@ namespace Rotation
             }
         }
 
-        void euler2rm(float angle_x, float angle_y, float angle_z, float[] mat)
+        void euler2rm(double angle_x, double angle_y, double angle_z, double[] mat)
         {
-            float A, B, C, D, E, F, AD, BD = 0.0f;
-            A = (float)Math.Cos(angle_x);
-            B = (float)Math.Sin(angle_x);
-            C = (float)Math.Cos(angle_y);
-            D = (float)Math.Sin(angle_y);
-            E = (float)Math.Cos(angle_z);
-            F = (float)Math.Sin(angle_z);
+            double A, B, C, D, E, F, AD, BD = 0d;
+            A = Math.Cos(angle_x);
+            B = Math.Sin(angle_x);
+            C = Math.Cos(angle_y);
+            D = Math.Sin(angle_y);
+            E = Math.Cos(angle_z);
+            F = Math.Sin(angle_z);
             AD = A * D;
             BD = B * D;
             mat[0] = C * E;
@@ -484,40 +483,41 @@ namespace Rotation
         {
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT | Gl.GL_STENCIL_BUFFER_BIT);
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
-            Gl.glLoadIdentity();
+            //Gl.glLoadIdentity();
             //Gl.glTranslated(positionX, positionY, positionZ);
 
             Gl.glPushMatrix();
             Gl.glLoadIdentity();
             //Gl.glMultMatrixf(matrixData);     // ->| 
             //                                        |-> Equal cuz multiplied with identity matrix
-            Gl.glLoadMatrixf(matrixData);       // ->|
+            Gl.glLoadMatrixd(matrixDouble);       // ->|
 
             // Rotation X
             if (Math.Abs(roll - roll_old) > 1)
             {
-                Gl.glRotatef(roll - roll_old, 1, 0, 0);
+                Gl.glRotated(roll - roll_old, 1, 0, 0);
                 roll_old = roll;
             }
             // Rotation Y
             if (Math.Abs(yaw - yaw_old) > 1)
             {
-                Gl.glRotatef(yaw - yaw_old, 0, 1, 0);
+                Gl.glRotated(yaw - yaw_old, 0, 1, 0);
                 yaw_old = yaw;
             }
             //Rotation Z
             if (Math.Abs(pitch - pitch_old)> 1)
             {
-                Gl.glRotatef((pitch - pitch_old), 0, 0, 1);
+                Gl.glRotated((pitch - pitch_old), 0, 0, 1);
                 pitch_old = pitch;
             }
 
-            Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, matrixData);
+            Gl.glGetDoublev(Gl.GL_MODELVIEW_MATRIX, matrixDouble);
+            
 
             Gl.glPushMatrix();
             Gl.glLoadIdentity();
-            matrixData[14] = positionZ;
-            Gl.glMultMatrixf(matrixData);
+            matrixDouble[14] = positionZ;
+            Gl.glMultMatrixd(matrixDouble);
 
             RefreshLabels(); //GUI "Model View" matrix values		
             DrawModel();
@@ -677,11 +677,11 @@ namespace Rotation
             Gl.glPushMatrix();
             Gl.glLoadIdentity();
 
-            yaw = trckBarYaw.Value * DEG2RAD;
-            pitch = trckBarPitch.Value * DEG2RAD;
-            roll = trckBarRoll.Value * DEG2RAD;
+            yaw = trckBarYawY.Value * DEG2RAD;
+            pitch = trckBarPitchZ.Value * DEG2RAD;
+            roll = trckBarRollX.Value * DEG2RAD;
 
-            euler2rm(-roll, -pitch, -yaw,  matrix2);
+            //euler2rm(-roll, -pitch, -yaw,  matrix2);
             //NASArotate(yaw, roll, pitch, matrix2);
 
             //Gl.glLoadMatrixf(matrix2);
@@ -709,11 +709,11 @@ namespace Rotation
             Gl.glLoadIdentity();
             Gl.glTranslated(positionX, positionY, positionZ);
 
-            yaw = trckBarYaw.Value * DEG2RAD;
-            pitch = trckBarPitch.Value * DEG2RAD;
-            roll = trckBarRoll.Value * DEG2RAD;
+            yaw = trckBarYawY.Value * DEG2RAD;
+            pitch = trckBarPitchZ.Value * DEG2RAD;
+            roll = trckBarRollX.Value * DEG2RAD;
 
-            euler2rm(yaw, pitch, roll, matrix2);
+            //euler2rm(yaw, pitch, roll, matrix2);
             Gl.glMultMatrixf(matrix2);
             RefreshLabels(); //GUI "Model View" matrix values		
             DrawModel();
@@ -893,14 +893,14 @@ namespace Rotation
             //Gl.glPushMatrix();
 
             Gl.glTranslated(positionX, positionY, -100);
-
+            /*
             q0 = AngleAxis(yaw * ((float)Math.PI / 180.0f), 0, 1, 0);
             q1 = AngleAxis(roll * ((float)Math.PI / 180.0f), 1, 0, 0);
             q2 = AngleAxis(pitch * ((float)Math.PI / 180.0f), 0, 0, 1);
             q = multiplyQuaternions(q0, multiplyQuaternions(q1, q2));
 
             //			if (t < 1.0) t += 0.04f;
-            q = eulerAnglesToQuaternion(roll, pitch, yaw);
+            q = eulerAnglesToQuaternion(roll, pitch, yaw);*/
             q = quaternion_normalize(q);
             qInterpolated = slerp(identityQuaternion, q, t);
             qInterpolated = quaternion_normalize(qInterpolated);
@@ -1023,22 +1023,22 @@ namespace Rotation
         private void RefreshLabels()
         {
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, matrix2);
-            lblM00.Text = matrix2[0].ToString();
-            lblM01.Text = matrix2[1].ToString();
-            lblM02.Text = matrix2[2].ToString();
-            lblM03.Text = matrix2[3].ToString();
-            lblM04.Text = matrix2[4].ToString();
-            lblM05.Text = matrix2[5].ToString();
-            lblM06.Text = matrix2[6].ToString();
-            lblM07.Text = matrix2[7].ToString();
-            lblM08.Text = matrix2[8].ToString();
-            lblM09.Text = matrix2[9].ToString();
-            lblM10.Text = matrix2[10].ToString();
-            lblM11.Text = matrix2[11].ToString();
-            lblM12.Text = matrix2[12].ToString();
-            lblM13.Text = matrix2[13].ToString();
-            lblM14.Text = matrix2[14].ToString();
-            lblM15.Text = matrix2[15].ToString();
+            lblM00.Text = $"{matrix2[0]:f4}";// matrix2[0].ToString($"{value:0000}");
+            lblM01.Text = matrix2[1].ToString("0.####").TrimEnd('0');
+            lblM02.Text = matrix2[2].ToString("0.0000").TrimEnd('0');
+            lblM03.Text = matrix2[3].ToString("0.0000").TrimEnd('0');
+            lblM04.Text = matrix2[4].ToString("0.0000").TrimEnd('0');
+            lblM05.Text = matrix2[5].ToString("0.0000").TrimEnd('0');
+            lblM06.Text = matrix2[6].ToString("0.0000").TrimEnd('0');
+            lblM07.Text = matrix2[7].ToString("0.0000").TrimEnd('0');
+            lblM08.Text = matrix2[8].ToString("0.0000").TrimEnd('0');
+            lblM09.Text = matrix2[9].ToString("0.0000").TrimEnd('0');
+            lblM10.Text = matrix2[10].ToString("0.0000").TrimEnd('0');
+            lblM11.Text = matrix2[11].ToString("0.0000").TrimEnd('0');
+            lblM12.Text = matrix2[12].ToString("0.0000").TrimEnd('0');
+            lblM13.Text = matrix2[13].ToString("0.0000").TrimEnd('0');
+            lblM14.Text = matrix2[14].ToString("0.0000").TrimEnd('0');
+            lblM15.Text = matrix2[15].ToString("0.0000").TrimEnd('0');
 
             lbE2RM0.Text = matrixData[0].ToString();
             lbE2RM1.Text = matrixData[1].ToString();
@@ -1105,14 +1105,47 @@ namespace Rotation
             Gl.glPopMatrix();
 
             Gl.glColor4f(0.56f, 0.56f, 0.56f, 1.0f);
-            //Glut.glutWireSphere(30, 16, 16);
-            Glut.glutWireCube(30);
+            Glut.glutWireSphere(30, 16, 16);
+            //Glut.glutWireCube(30);
             //Glut.glutSolidTeapot(30);
         }
 
         double quaternion_length(Quaternion q)
         {
             return Math.Sqrt(q.w * q.w + q.x * q.x + q.y * q.y + q.z * q.z);
+        }
+
+        private void btnSetXtoZero_Click(object sender, EventArgs e)
+        {
+            trckBarRollX.Value = 0;
+        }
+
+        private void btnSetYtoZero_Click(object sender, EventArgs e)
+        {
+            trckBarYawY.Value = 0;
+        }
+
+        private void btnSetZtoZero_Click(object sender, EventArgs e)
+        {
+            trckBarPitchZ.Value = 0;
+        }
+
+        private void trckBarRollX_ValueChanged(object sender, EventArgs e)
+        {
+            lblRollValue.Text = trckBarRollX.Value.ToString();
+            roll = trckBarRollX.Value;
+        }
+
+        private void trckBarYawY_ValueChanged(object sender, EventArgs e)
+        {
+            lblPitchValue.Text = trckBarYawY.Value.ToString();
+            yaw = trckBarYawY.Value;
+        }
+
+        private void trckBarPitchZ_ValueChanged(object sender, EventArgs e)
+        {
+            lblYawValue.Text = trckBarPitchZ.Value.ToString();
+            pitch = trckBarPitchZ.Value;
         }
 
         Quaternion quaternion_normalize(Quaternion q)
@@ -1131,7 +1164,7 @@ namespace Rotation
         {
             if (e.KeyCode == Keys.Enter)
             {
-                trckBarRoll.Value = int.Parse(tbX.Text);
+                trckBarRollX.Value = int.Parse(tbX.Text);
                 lblRollValue.Text = tbX.Text;
 
                 // Enter Sound OFF
