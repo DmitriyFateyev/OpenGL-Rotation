@@ -242,11 +242,6 @@ namespace Rotation
             trckBarRollX.Minimum = -180;
             trckBarYawY.Minimum = -180;
 
-            trckBarX.Minimum = -100;
-            trckBarY.Minimum = -100;
-            trckBarZ.Minimum = -200;
-            trckBarZ.Value = -200;
-
             // инициализация Glut
             Glut.glutInit();
             Glut.glutInitDisplayMode(Glut.GLUT_RGBA | Glut.GLUT_DOUBLE | Glut.GLUT_MULTISAMPLE | Glut.GLUT_DEPTH);
@@ -287,9 +282,9 @@ namespace Rotation
 
             Gl.glViewport(0, 0, AnT.Width, AnT.Height);
             // установить корректную перспективу
-            Gl.glOrtho(-100, 100, -100, 100, -1, 1000);
-            //Glu.gluPerspective(60.0f, (float)AnT.Width / AnT.Height, 10.0f, 1000.0f); //1cm - 100m
-                                                                                      // вернуться к матрице проекции
+            //Gl.glOrtho(-100, 100, -100, 100, -1, 1000);
+            Glu.gluPerspective(60.0f, (float)AnT.Width / AnT.Height, 1.0f, 1000.0f);
+
             Gl.glMatrixMode(Gl.GL_MODELVIEW);//break
             Gl.glLoadIdentity();
 
@@ -303,35 +298,7 @@ namespace Rotation
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, meye);
         }
 
-        void TrckBarRollScroll(object sender, EventArgs e)
-        {
-            
-        }
-
-        void TrckBarPitchScroll(object sender, EventArgs e)
-        {
-           
-        }
-
-        void TrckBarYawScroll(object sender, EventArgs e)
-        {
-            
-        }
-        void TrckBarXScroll(object sender, EventArgs e)
-        {
-            lblXTranslation.Text = trckBarX.Value.ToString();
-            positionX = trckBarX.Value;
-        }
-        void TrckBarYScroll(object sender, EventArgs e)
-        {
-            lblYTranslation.Text = trckBarY.Value.ToString();
-            positionY = trckBarY.Value;
-        }
-        void TrckBarZScroll(object sender, EventArgs e)
-        {
-            lblZTranslation.Text = trckBarZ.Value.ToString();
-            positionZ = trckBarZ.Value;
-        }
+       
         void BtnResetRotationClick(object sender, EventArgs e)
         {
             trckBarRollX.Value = 0;
@@ -358,20 +325,6 @@ namespace Rotation
             matrix2[0] = matrix2[5] = matrix2[10] = matrix2[15] = 1.0f;
         }
 
-        void BtnResetTranslationClick(object sender, EventArgs e)
-        {
-            trckBarX.Value = 0;
-            trckBarY.Value = 0;
-            trckBarZ.Value = -200;
-
-            lblXTranslation.Text = "0";
-            lblYTranslation.Text = "0";
-            lblZTranslation.Text = "-200";
-
-            positionX = 0;
-            positionY = 0;
-            positionZ = -200;
-        }
 
         float[] mTranspose4x4(float[] A)
         {
@@ -1023,7 +976,7 @@ namespace Rotation
         private void RefreshLabels()
         {
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, matrix2);
-            lblM00.Text = $"{matrix2[0]:f4}";// matrix2[0].ToString($"{value:0000}");
+            lblM00.Text = $"{matrix2[0]:4}";// matrix2[0].ToString($"{value:0000}");
             lblM01.Text = matrix2[1].ToString("0.####").TrimEnd('0');
             lblM02.Text = matrix2[2].ToString("0.0000").TrimEnd('0');
             lblM03.Text = matrix2[3].ToString("0.0000").TrimEnd('0');
@@ -1039,28 +992,6 @@ namespace Rotation
             lblM13.Text = matrix2[13].ToString("0.0000").TrimEnd('0');
             lblM14.Text = matrix2[14].ToString("0.0000").TrimEnd('0');
             lblM15.Text = matrix2[15].ToString("0.0000").TrimEnd('0');
-
-            lbE2RM0.Text = matrixData[0].ToString();
-            lbE2RM1.Text = matrixData[1].ToString();
-            lbE2RM2.Text = matrixData[2].ToString();
-            lbE2RM3.Text = matrixData[3].ToString();
-            lbE2RM4.Text = matrixData[4].ToString();
-            lbE2RM5.Text = matrixData[5].ToString();
-            lbE2RM6.Text = matrixData[6].ToString();
-            lbE2RM7.Text = matrixData[7].ToString();
-            lbE2RM8.Text = matrixData[8].ToString();
-            lbE2RM9.Text = matrixData[9].ToString();
-            lbE2RM10.Text = matrixData[10].ToString();
-            lbE2RM11.Text = matrixData[11].ToString();
-            lbE2RM12.Text = matrixData[12].ToString();
-            lbE2RM13.Text = matrixData[13].ToString();
-            lbE2RM14.Text = matrixData[14].ToString();
-            lbE2RM15.Text = matrixData[15].ToString();
-
-            lblQuatW.Text = q.w.ToString();
-            lblQuatX.Text = q.x.ToString();
-            lblQuatY.Text = q.y.ToString();
-            lblQuatZ.Text = q.z.ToString();
         }
 
         private void DrawModel()
@@ -1164,8 +1095,8 @@ namespace Rotation
         {
             if (e.KeyCode == Keys.Enter)
             {
-                trckBarRollX.Value = int.Parse(tbX.Text);
-                lblRollValue.Text = tbX.Text;
+                //trckBarRollX.Value = int.Parse(tbX.Text);
+                //lblRollValue.Text = tbX.Text;
 
                 // Enter Sound OFF
                 e.Handled = true;
