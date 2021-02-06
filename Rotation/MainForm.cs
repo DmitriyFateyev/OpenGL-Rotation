@@ -286,8 +286,8 @@ namespace Rotation
 
             Gl.glViewport(0, 0, AnT.Width, AnT.Height);
             // установить корректную перспективу
-            //Gl.glOrtho(-1000, 1000, -1000, 1000, -1, 10000);
-            Glu.gluPerspective(60.0f, (float)AnT.Width / AnT.Height, 10.0f, 1000.0f); //1cm - 100m
+            Gl.glOrtho(-100, 100, -100, 100, -1, 1000);
+            //Glu.gluPerspective(60.0f, (float)AnT.Width / AnT.Height, 10.0f, 1000.0f); //1cm - 100m
                                                                                       // вернуться к матрице проекции
             Gl.glMatrixMode(Gl.GL_MODELVIEW);//break
             Gl.glLoadIdentity();
@@ -489,25 +489,27 @@ namespace Rotation
 
             Gl.glPushMatrix();
             Gl.glLoadIdentity();
-            Gl.glMultMatrixf(matrixData);
+            //Gl.glMultMatrixf(matrixData);     // ->| 
+            //                                        |-> Equal cuz multiplied with identity matrix
+            Gl.glLoadMatrixf(matrixData);       // ->|
 
             // Rotation X
-            if (roll != roll_old)
+            if (Math.Abs(roll - roll_old) > 1)
             {
                 Gl.glRotatef(roll - roll_old, 1, 0, 0);
                 roll_old = roll;
             }
             // Rotation Y
-            if (pitch != pitch_old)
+            if (Math.Abs(yaw - yaw_old) > 1)
             {
-                Gl.glRotatef(pitch - pitch_old, 0, 1, 0);
-                pitch_old = pitch;
+                Gl.glRotatef(yaw - yaw_old, 0, 1, 0);
+                yaw_old = yaw;
             }
             //Rotation Z
-            if (yaw != yaw_old)
+            if (Math.Abs(pitch - pitch_old)> 1)
             {
-                Gl.glRotatef((yaw - yaw_old), 0, 0, 1);
-                yaw_old = yaw;
+                Gl.glRotatef((pitch - pitch_old), 0, 0, 1);
+                pitch_old = pitch;
             }
 
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, matrixData);
@@ -537,7 +539,7 @@ namespace Rotation
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, mobj);
             Gl.glPopMatrix();
             */
-            this.Invoke(new EventHandler(_redrawMatrix));//_redrawMatrix
+            this.Invoke(new EventHandler(Redraw2));//_redrawMatrix
         }
 
         private void _redrawMatrix(object sender, EventArgs e)
@@ -545,11 +547,36 @@ namespace Rotation
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT | Gl.GL_STENCIL_BUFFER_BIT);
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, matrixData);
+
+            // Draw Global axis
             Gl.glPushMatrix();
             Gl.glLoadIdentity();
+            Gl.glTranslatef(0,0,-200);
+            Gl.glRotated(30, 1, 0, 0);
+            Gl.glRotated(-30, 0, 1, 0);
+            Gl.glBegin(Gl.GL_LINES);
+            //X axis - OpenGL X Axis
+            Gl.glColor4f(0.9f, 0.9f, 0.9f, 0.3f);
+            Gl.glVertex3d(-100, 0, 0);
+            Gl.glVertex3d(100, 0, 0);
+            Gl.glEnd();
+            //Y axis - OpenGL Z Axis
+            Gl.glBegin(Gl.GL_LINES);
+            Gl.glColor4f(0.9f, 0.9f, 0.9f, 0.3f);
+            Gl.glVertex3d(0, 0, -100);
+            Gl.glVertex3d(0, 0, 100);
+            Gl.glEnd();
+            //Z axis - OpenGL Y Axis
+            Gl.glBegin(Gl.GL_LINES);
+            Gl.glColor4f(0.9f, 0.9f, 0.9f, 0.3f);
+            Gl.glVertex3d(0, -100, 0);
+            Gl.glVertex3d(0, 100, 0);
+            Gl.glEnd();
+            Gl.glPopMatrix();
+
 
             //================= Matrix Multiplication Rotation Animation =================
-            if(cbxAnimate.Checked)
+            if (cbxAnimate.Checked)
             {
                 if (angleZ < 45)
                 {
@@ -570,6 +597,9 @@ namespace Rotation
                 angleY = pitch;
                 angleZ = yaw;
             }
+
+            Gl.glPushMatrix();
+            Gl.glLoadIdentity();
             
             matrixIdentity(matrixX);
             matrixIdentity(matrixY);
@@ -600,12 +630,15 @@ namespace Rotation
             mat[14] = -200;
 
             Gl.glLoadMatrixf(mat);
+            
             //==================================================================
 
             DrawModel();
             RefreshLabels(); //GUI "Model View" matrix values		
-
             Gl.glPopMatrix();
+            
+            //Gl.glPopMatrix();
+
             Gl.glFlush();
             AnT.Invalidate();
         }

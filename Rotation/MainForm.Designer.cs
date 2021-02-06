@@ -90,6 +90,7 @@ namespace Rotation
 		{
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.cbxAnimate = new System.Windows.Forms.CheckBox();
             this.btnResetTranslation = new System.Windows.Forms.Button();
             this.btnResetRotation = new System.Windows.Forms.Button();
             this.groupBoxTranslation = new System.Windows.Forms.GroupBox();
@@ -159,7 +160,6 @@ namespace Rotation
             this.AnT = new Tao.Platform.Windows.SimpleOpenGlControl();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.cbxAnimate = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -201,6 +201,16 @@ namespace Rotation
             this.splitContainer1.Size = new System.Drawing.Size(974, 811);
             this.splitContainer1.SplitterDistance = 175;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // cbxAnimate
+            // 
+            this.cbxAnimate.AutoSize = true;
+            this.cbxAnimate.Location = new System.Drawing.Point(430, 82);
+            this.cbxAnimate.Name = "cbxAnimate";
+            this.cbxAnimate.Size = new System.Drawing.Size(64, 17);
+            this.cbxAnimate.TabIndex = 2;
+            this.cbxAnimate.Text = "Animate";
+            this.cbxAnimate.UseVisualStyleBackColor = true;
             // 
             // btnResetTranslation
             // 
@@ -368,7 +378,7 @@ namespace Rotation
             // 
             // trckBarYaw
             // 
-            this.trckBarYaw.Location = new System.Drawing.Point(34, 109);
+            this.trckBarYaw.Location = new System.Drawing.Point(34, 64);
             this.trckBarYaw.Maximum = 180;
             this.trckBarYaw.Name = "trckBarYaw";
             this.trckBarYaw.Size = new System.Drawing.Size(323, 45);
@@ -378,7 +388,7 @@ namespace Rotation
             // 
             // trckBarPitch
             // 
-            this.trckBarPitch.Location = new System.Drawing.Point(34, 64);
+            this.trckBarPitch.Location = new System.Drawing.Point(34, 109);
             this.trckBarPitch.Maximum = 90;
             this.trckBarPitch.Name = "trckBarPitch";
             this.trckBarPitch.Size = new System.Drawing.Size(323, 45);
@@ -886,16 +896,6 @@ namespace Rotation
             this.timer1.Enabled = true;
             this.timer1.Interval = 30;
             this.timer1.Tick += new System.EventHandler(this.Timer1Tick);
-            // 
-            // cbxAnimate
-            // 
-            this.cbxAnimate.AutoSize = true;
-            this.cbxAnimate.Location = new System.Drawing.Point(430, 82);
-            this.cbxAnimate.Name = "cbxAnimate";
-            this.cbxAnimate.Size = new System.Drawing.Size(64, 17);
-            this.cbxAnimate.TabIndex = 2;
-            this.cbxAnimate.Text = "Animate";
-            this.cbxAnimate.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
