@@ -99,7 +99,7 @@ namespace Rotation
             // cbxAnimate
             // 
             this.cbxAnimate.AutoSize = true;
-            this.cbxAnimate.Location = new System.Drawing.Point(178, 470);
+            this.cbxAnimate.Location = new System.Drawing.Point(6, 435);
             this.cbxAnimate.Name = "cbxAnimate";
             this.cbxAnimate.Size = new System.Drawing.Size(64, 17);
             this.cbxAnimate.TabIndex = 2;
@@ -308,6 +308,7 @@ namespace Rotation
             // lblM00
             // 
             this.lblM00.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblM00.ForeColor = System.Drawing.Color.Red;
             this.lblM00.Location = new System.Drawing.Point(6, 16);
             this.lblM00.Name = "lblM00";
             this.lblM00.Size = new System.Drawing.Size(93, 23);
@@ -326,6 +327,7 @@ namespace Rotation
             // lblM01
             // 
             this.lblM01.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblM01.ForeColor = System.Drawing.Color.Red;
             this.lblM01.Location = new System.Drawing.Point(6, 57);
             this.lblM01.Name = "lblM01";
             this.lblM01.Size = new System.Drawing.Size(94, 23);
@@ -344,6 +346,7 @@ namespace Rotation
             // lblM02
             // 
             this.lblM02.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblM02.ForeColor = System.Drawing.Color.Red;
             this.lblM02.Location = new System.Drawing.Point(6, 98);
             this.lblM02.Name = "lblM02";
             this.lblM02.Size = new System.Drawing.Size(94, 23);
@@ -380,6 +383,7 @@ namespace Rotation
             // lblM04
             // 
             this.lblM04.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblM04.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.lblM04.Location = new System.Drawing.Point(117, 16);
             this.lblM04.Name = "lblM04";
             this.lblM04.Size = new System.Drawing.Size(92, 23);
@@ -398,6 +402,7 @@ namespace Rotation
             // lblM05
             // 
             this.lblM05.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblM05.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.lblM05.Location = new System.Drawing.Point(116, 57);
             this.lblM05.Name = "lblM05";
             this.lblM05.Size = new System.Drawing.Size(93, 23);
@@ -407,6 +412,7 @@ namespace Rotation
             // lblM10
             // 
             this.lblM10.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblM10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.lblM10.Location = new System.Drawing.Point(227, 98);
             this.lblM10.Name = "lblM10";
             this.lblM10.Size = new System.Drawing.Size(96, 23);
@@ -416,6 +422,7 @@ namespace Rotation
             // lblM06
             // 
             this.lblM06.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblM06.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.lblM06.Location = new System.Drawing.Point(116, 98);
             this.lblM06.Name = "lblM06";
             this.lblM06.Size = new System.Drawing.Size(93, 23);
@@ -425,6 +432,7 @@ namespace Rotation
             // lblM09
             // 
             this.lblM09.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblM09.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.lblM09.Location = new System.Drawing.Point(227, 57);
             this.lblM09.Name = "lblM09";
             this.lblM09.Size = new System.Drawing.Size(96, 23);
@@ -443,6 +451,7 @@ namespace Rotation
             // lblM08
             // 
             this.lblM08.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblM08.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.lblM08.Location = new System.Drawing.Point(227, 16);
             this.lblM08.Name = "lblM08";
             this.lblM08.Size = new System.Drawing.Size(95, 23);

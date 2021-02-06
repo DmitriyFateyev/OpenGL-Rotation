@@ -976,22 +976,22 @@ namespace Rotation
         private void RefreshLabels()
         {
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, matrix2);
-            lblM00.Text = $"{matrix2[0]:4}";// matrix2[0].ToString($"{value:0000}");
-            lblM01.Text = matrix2[1].ToString("0.####").TrimEnd('0');
-            lblM02.Text = matrix2[2].ToString("0.0000").TrimEnd('0');
-            lblM03.Text = matrix2[3].ToString("0.0000").TrimEnd('0');
-            lblM04.Text = matrix2[4].ToString("0.0000").TrimEnd('0');
-            lblM05.Text = matrix2[5].ToString("0.0000").TrimEnd('0');
-            lblM06.Text = matrix2[6].ToString("0.0000").TrimEnd('0');
-            lblM07.Text = matrix2[7].ToString("0.0000").TrimEnd('0');
-            lblM08.Text = matrix2[8].ToString("0.0000").TrimEnd('0');
-            lblM09.Text = matrix2[9].ToString("0.0000").TrimEnd('0');
-            lblM10.Text = matrix2[10].ToString("0.0000").TrimEnd('0');
-            lblM11.Text = matrix2[11].ToString("0.0000").TrimEnd('0');
-            lblM12.Text = matrix2[12].ToString("0.0000").TrimEnd('0');
-            lblM13.Text = matrix2[13].ToString("0.0000").TrimEnd('0');
-            lblM14.Text = matrix2[14].ToString("0.0000").TrimEnd('0');
-            lblM15.Text = matrix2[15].ToString("0.0000").TrimEnd('0');
+            lblM00.Text = matrix2[0].ToString("0.####");
+            lblM01.Text = matrix2[1].ToString("0.####");
+            lblM02.Text = matrix2[2].ToString("0.####");
+            lblM03.Text = matrix2[3].ToString("0.####");
+            lblM04.Text = matrix2[4].ToString("0.####");
+            lblM05.Text = matrix2[5].ToString("0.####");
+            lblM06.Text = matrix2[6].ToString("0.####");
+            lblM07.Text = matrix2[7].ToString("0.####");
+            lblM08.Text = matrix2[8].ToString("0.####");
+            lblM09.Text = matrix2[9].ToString("0.####");
+            lblM10.Text = matrix2[10].ToString("0.####");
+            lblM11.Text = matrix2[11].ToString("0.####");
+            lblM12.Text = matrix2[12].ToString("0.####");
+            lblM13.Text = matrix2[13].ToString("0.####");
+            lblM14.Text = matrix2[14].ToString("0.####");
+            lblM15.Text = matrix2[15].ToString("0.####");
         }
 
         private void DrawModel()
