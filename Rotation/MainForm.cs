@@ -282,8 +282,8 @@ namespace Rotation
 
             Gl.glViewport(0, 0, AnT.Width, AnT.Height);
             // установить корректную перспективу
-            //Gl.glOrtho(-100, 100, -100, 100, -1, 1000);
-            Glu.gluPerspective(60.0f, (float)AnT.Width / AnT.Height, 1.0f, 1000.0f);
+            Gl.glOrtho(-100, 100, -100, 100, -1, 1000);
+            //Glu.gluPerspective(60.0f, (float)AnT.Width / AnT.Height, 1.0f, 1000.0f);
 
             Gl.glMatrixMode(Gl.GL_MODELVIEW);//break
             Gl.glLoadIdentity();
@@ -441,42 +441,40 @@ namespace Rotation
 
             Gl.glPushMatrix();
             Gl.glLoadIdentity();
-            //Gl.glMultMatrixf(matrixData);     // ->| 
-            //                                        |-> Equal cuz multiplied with identity matrix
+            //Gl.glMultMatrixf(matrixDouble);     // ->| 
+            //                                          |-> Equal result. cuz multiplied with identity matrix
             Gl.glLoadMatrixd(matrixDouble);       // ->|
 
             // Rotation X
-            if (Math.Abs(roll - roll_old) > 1)
+            if (Math.Abs(roll - roll_old) >= 1)
             {
                 Gl.glRotated(roll - roll_old, 1, 0, 0);
                 roll_old = roll;
             }
             // Rotation Y
-            if (Math.Abs(yaw - yaw_old) > 1)
+            if (Math.Abs(yaw - yaw_old) >= 1)
             {
                 Gl.glRotated(yaw - yaw_old, 0, 1, 0);
                 yaw_old = yaw;
             }
             //Rotation Z
-            if (Math.Abs(pitch - pitch_old)> 1)
+            if (Math.Abs(pitch - pitch_old)>= 1)
             {
                 Gl.glRotated((pitch - pitch_old), 0, 0, 1);
                 pitch_old = pitch;
             }
 
             Gl.glGetDoublev(Gl.GL_MODELVIEW_MATRIX, matrixDouble);
-            
 
             Gl.glPushMatrix();
             Gl.glLoadIdentity();
             matrixDouble[14] = positionZ;
             Gl.glMultMatrixd(matrixDouble);
 
-            RefreshLabels(); //GUI "Model View" matrix values		
+            RefreshLabels(); // Update GUI "ModelView" matrix labels
             DrawModel();
 
             Gl.glPopMatrix();
-
             Gl.glFlush();
             AnT.Invalidate();
         }
@@ -852,7 +850,7 @@ namespace Rotation
             q2 = AngleAxis(pitch * ((float)Math.PI / 180.0f), 0, 0, 1);
             q = multiplyQuaternions(q0, multiplyQuaternions(q1, q2));
 
-            //			if (t < 1.0) t += 0.04f;
+            //if (t < 1.0) t += 0.04f;
             q = eulerAnglesToQuaternion(roll, pitch, yaw);*/
             q = quaternion_normalize(q);
             qInterpolated = slerp(identityQuaternion, q, t);
@@ -979,19 +977,19 @@ namespace Rotation
             lblM00.Text = matrix2[0].ToString("0.####");
             lblM01.Text = matrix2[1].ToString("0.####");
             lblM02.Text = matrix2[2].ToString("0.####");
-            lblM03.Text = matrix2[3].ToString("0.####");
+            //lblM03.Text = matrix2[3].ToString("0.####");
             lblM04.Text = matrix2[4].ToString("0.####");
             lblM05.Text = matrix2[5].ToString("0.####");
             lblM06.Text = matrix2[6].ToString("0.####");
-            lblM07.Text = matrix2[7].ToString("0.####");
+            //lblM07.Text = matrix2[7].ToString("0.####");
             lblM08.Text = matrix2[8].ToString("0.####");
             lblM09.Text = matrix2[9].ToString("0.####");
             lblM10.Text = matrix2[10].ToString("0.####");
-            lblM11.Text = matrix2[11].ToString("0.####");
-            lblM12.Text = matrix2[12].ToString("0.####");
-            lblM13.Text = matrix2[13].ToString("0.####");
-            lblM14.Text = matrix2[14].ToString("0.####");
-            lblM15.Text = matrix2[15].ToString("0.####");
+            //lblM11.Text = matrix2[11].ToString("0.####");
+            //lblM12.Text = matrix2[12].ToString("0.####");
+            //lblM13.Text = matrix2[13].ToString("0.####");
+            //lblM14.Text = matrix2[14].ToString("0.####");
+            //lblM15.Text = matrix2[15].ToString("0.####");
         }
 
         private void DrawModel()
