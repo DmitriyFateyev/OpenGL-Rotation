@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
-using System.Globalization;
-
-using Tao.OpenGl;
 using Tao.FreeGlut;
+using Tao.OpenGl;
 
 namespace Rotation
 {
@@ -140,32 +136,6 @@ namespace Rotation
             Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, meye);
         }
        
-        void BtnResetRotationClick(object sender, EventArgs e)
-        {
-            trckBarRollX.Value = 0;
-            trckBarPitchZ.Value = 0;
-            trckBarYawY.Value = 0;
-
-            lblRollValue.Text = "0";
-            lblYawValue.Text = "0";
-            lblPitchValue.Text = "0";
-
-            roll = 0;
-            pitch = 0;
-            yaw = 0;
-            roll_old = 0;
-            pitch_old = 0;
-            yaw_old = 0;
-
-            t = 0.0f;
-            // Initialize global matrixData. 
-            for (int i = 0; i < 16; i++) matrixDouble[i] = 0.0f;
-            matrixDouble[0] = matrixDouble[5] = matrixDouble[10] = matrixDouble[15] = 1.0f;
-
-            for (int i = 0; i < 16; i++) matrix2[i] = 0.0f;
-            matrix2[0] = matrix2[5] = matrix2[10] = matrix2[15] = 1.0f;
-        }
-
         private void Redraw2(object sender, EventArgs e)
         {
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT | Gl.GL_STENCIL_BUFFER_BIT);
@@ -179,12 +149,6 @@ namespace Rotation
             //                                          |-> Equal result. cuz MV matrix is identity matrix
             Gl.glLoadMatrixd(matrixDouble);       // ->|
 
-            // Rotation X
-            Gl.glRotated(roll, 1, 0, 0);
-            Gl.glRotated(yaw, 0, 1, 0);
-            Gl.glRotated(pitch, 0, 0, 1);
-
-            /* Large rotation errors
             // Rotation X
             if (Math.Abs(roll - roll_old) >= 1)
             {
@@ -203,7 +167,6 @@ namespace Rotation
                 Gl.glRotated((pitch - pitch_old), 0, 0, 1);
                 pitch_old = pitch;
             }
-            */
 
             Gl.glGetDoublev(Gl.GL_MODELVIEW_MATRIX, matrixDouble);
 
@@ -218,20 +181,6 @@ namespace Rotation
             Gl.glPopMatrix();
             Gl.glFlush();
             AnT.Invalidate();
-        }
-
-        void Timer1Tick(object sender, EventArgs e)
-        {
-            /*
-            Gl.glPushMatrix();
-            Gl.glLoadMatrixf(mobj);
-            Gl.glRotatef(roll, 1, 0, 0);
-            Gl.glRotatef(pitch, 0, 1, 0);
-            // obtain mobj from GL
-            Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, mobj);
-            Gl.glPopMatrix();
-            */
-            this.Invoke(new EventHandler(Redraw2));//_redrawMatrix
         }
 
         private void _redrawMatrix(object sender, EventArgs e)
@@ -483,8 +432,8 @@ namespace Rotation
             //lblM11.Text = matrix2[11].ToString("0.####");
             //lblM12.Text = matrix2[12].ToString("0.####");
             //lblM13.Text = matrix2[13].ToString("0.####");
-            //lblM14.Text = matrix2[14].ToString("0.####");
-            //lblM15.Text = matrix2[15].ToString("0.####");
+            lblM14.Text = matrix2[14].ToString("0.####");
+            lblM15.Text = matrix2[15].ToString("0.####");
         }
 
         private void DrawModel()
@@ -534,7 +483,47 @@ namespace Rotation
             //Glut.glutSolidTeapot(30);
         }
 
+        void Timer1Tick(object sender, EventArgs e)
+        {
+            /*
+            Gl.glPushMatrix();
+            Gl.glLoadMatrixf(mobj);
+            Gl.glRotatef(roll, 1, 0, 0);
+            Gl.glRotatef(pitch, 0, 1, 0);
+            // obtain mobj from GL
+            Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, mobj);
+            Gl.glPopMatrix();
+            */
+            this.Invoke(new EventHandler(Redraw2));//_redrawMatrix
+        }
+
         #region GUI
+        void BtnResetRotationClick(object sender, EventArgs e)
+        {
+            trckBarRollX.Value = 0;
+            trckBarPitchZ.Value = 0;
+            trckBarYawY.Value = 0;
+
+            lblRollValue.Text = "0";
+            lblYawValue.Text = "0";
+            lblPitchValue.Text = "0";
+
+            roll = 0;
+            pitch = 0;
+            yaw = 0;
+            roll_old = 0;
+            pitch_old = 0;
+            yaw_old = 0;
+
+            t = 0.0f;
+            // Initialize global matrixData. 
+            for (int i = 0; i < 16; i++) matrixDouble[i] = 0.0f;
+            matrixDouble[0] = matrixDouble[5] = matrixDouble[10] = matrixDouble[15] = 1.0f;
+
+            for (int i = 0; i < 16; i++) matrix2[i] = 0.0f;
+            matrix2[0] = matrix2[5] = matrix2[10] = matrix2[15] = 1.0f;
+        }
+
         private void btnSetXtoZero_Click(object sender, EventArgs e)
         {
             trckBarRollX.Value = 0;
