@@ -50,7 +50,6 @@ namespace Rotation
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            this.cbxAnimate = new System.Windows.Forms.CheckBox();
             this.btnResetRotation = new System.Windows.Forms.Button();
             this.groupBoxRotation = new System.Windows.Forms.GroupBox();
             this.btnSetZtoZero = new System.Windows.Forms.Button();
@@ -96,16 +95,6 @@ namespace Rotation
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // cbxAnimate
-            // 
-            this.cbxAnimate.AutoSize = true;
-            this.cbxAnimate.Location = new System.Drawing.Point(6, 435);
-            this.cbxAnimate.Name = "cbxAnimate";
-            this.cbxAnimate.Size = new System.Drawing.Size(64, 17);
-            this.cbxAnimate.TabIndex = 2;
-            this.cbxAnimate.Text = "Animate";
-            this.cbxAnimate.UseVisualStyleBackColor = true;
-            // 
             // btnResetRotation
             // 
             this.btnResetRotation.Location = new System.Drawing.Point(6, 369);
@@ -139,31 +128,31 @@ namespace Rotation
             // 
             // btnSetZtoZero
             // 
-            this.btnSetZtoZero.Location = new System.Drawing.Point(408, 104);
+            this.btnSetZtoZero.Location = new System.Drawing.Point(394, 104);
             this.btnSetZtoZero.Name = "btnSetZtoZero";
-            this.btnSetZtoZero.Size = new System.Drawing.Size(21, 28);
+            this.btnSetZtoZero.Size = new System.Drawing.Size(44, 28);
             this.btnSetZtoZero.TabIndex = 1;
-            this.btnSetZtoZero.Text = "0";
+            this.btnSetZtoZero.Text = "Reset";
             this.btnSetZtoZero.UseVisualStyleBackColor = true;
             this.btnSetZtoZero.Click += new System.EventHandler(this.btnSetZtoZero_Click);
             // 
             // btnSetYtoZero
             // 
-            this.btnSetYtoZero.Location = new System.Drawing.Point(408, 59);
+            this.btnSetYtoZero.Location = new System.Drawing.Point(394, 59);
             this.btnSetYtoZero.Name = "btnSetYtoZero";
-            this.btnSetYtoZero.Size = new System.Drawing.Size(21, 28);
+            this.btnSetYtoZero.Size = new System.Drawing.Size(44, 28);
             this.btnSetYtoZero.TabIndex = 1;
-            this.btnSetYtoZero.Text = "0";
+            this.btnSetYtoZero.Text = "Reset";
             this.btnSetYtoZero.UseVisualStyleBackColor = true;
             this.btnSetYtoZero.Click += new System.EventHandler(this.btnSetYtoZero_Click);
             // 
             // btnSetXtoZero
             // 
-            this.btnSetXtoZero.Location = new System.Drawing.Point(408, 14);
+            this.btnSetXtoZero.Location = new System.Drawing.Point(394, 14);
             this.btnSetXtoZero.Name = "btnSetXtoZero";
-            this.btnSetXtoZero.Size = new System.Drawing.Size(21, 28);
+            this.btnSetXtoZero.Size = new System.Drawing.Size(44, 28);
             this.btnSetXtoZero.TabIndex = 1;
-            this.btnSetXtoZero.Text = "0";
+            this.btnSetXtoZero.Text = "Reset";
             this.btnSetXtoZero.UseVisualStyleBackColor = true;
             this.btnSetXtoZero.Click += new System.EventHandler(this.btnSetXtoZero_Click);
             // 
@@ -464,7 +453,6 @@ namespace Rotation
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox3.Controls.Add(this.groupBoxRotation);
             this.groupBox3.Controls.Add(this.btnResetRotation);
-            this.groupBox3.Controls.Add(this.cbxAnimate);
             this.groupBox3.Controls.Add(this.groupBox1);
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
             this.groupBox3.Name = "groupBox3";
@@ -501,12 +489,10 @@ namespace Rotation
             ((System.ComponentModel.ISupportInitialize)(this.trckBarRollX)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
-        private System.Windows.Forms.CheckBox cbxAnimate;
         private System.Windows.Forms.Button btnSetZtoZero;
         private System.Windows.Forms.Button btnSetYtoZero;
         private System.Windows.Forms.Button btnSetXtoZero;
