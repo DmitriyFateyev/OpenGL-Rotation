@@ -58,19 +58,19 @@ namespace Rotation
             Gl.glLoadIdentity();
             Gl.glLoadMatrixd(matModelView);
 
-            // Rotation X
+            // Rotation around X
             if (Math.Abs(roll - roll_old) >= 1)
             {
                 Gl.glRotated(roll - roll_old, 1, 0, 0);
                 roll_old = roll;
             }
-            // Rotation Y
+            // Rotation around Y
             if (Math.Abs(yaw - yaw_old) >= 1)
             {
                 Gl.glRotated(yaw - yaw_old, 0, 1, 0);
                 yaw_old = yaw;
             }
-            //Rotation Z
+            //Rotation around Z
             if (Math.Abs(pitch - pitch_old)>= 1)
             {
                 Gl.glRotated((pitch - pitch_old), 0, 0, 1);
