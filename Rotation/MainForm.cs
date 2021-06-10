@@ -55,7 +55,7 @@ namespace Rotation
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT | Gl.GL_STENCIL_BUFFER_BIT);
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
             Gl.glPushMatrix();
-            Gl.glLoadIdentity();
+
             Gl.glLoadMatrixd(matModelView);
 
             // Rotation around X
@@ -92,7 +92,47 @@ namespace Rotation
             AnT.Invalidate();
         }
 
-        void Timer1Tick(object sender, EventArgs e) => this.Invoke(new EventHandler(Redraw));
+        private void Redraw2(object sender, EventArgs e)
+        {
+            Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT | Gl.GL_STENCIL_BUFFER_BIT);
+            Gl.glMatrixMode(Gl.GL_MODELVIEW);
+            Gl.glPushMatrix();
+            Gl.glLoadIdentity();
+
+            // X Axis
+            matModelView[0] = 0;
+            matModelView[1] = -0.7071068;
+            matModelView[2] = 0.7071068;
+
+            // Y Axis
+            matModelView[4] = 0;
+            matModelView[5] = 0.7071068;
+            matModelView[6] = 0.7071068;
+
+            // Z Axis
+            matModelView[8] = -1;
+            matModelView[9] = 0;
+            matModelView[10] = 0;
+
+            // Position Z
+            matModelView[14] = positionZ;
+
+            Gl.glLoadMatrixd(matModelView);
+
+            Gl.glPushMatrix();
+            Gl.glLoadIdentity();
+            matModelView[14] = positionZ;
+            Gl.glMultMatrixd(matModelView);
+
+            RefreshLabels(); // Update GUI "ModelView" matrix labels
+            DrawModel();
+
+            Gl.glPopMatrix();
+            Gl.glFlush();
+            AnT.Invalidate();
+        }
+
+        void Timer1Tick(object sender, EventArgs e) => this.Invoke(new EventHandler(Redraw2));
 
         #region Scene
         private void InitScene()
@@ -137,7 +177,7 @@ namespace Rotation
 
             Gl.glViewport(0, 0, AnT.Width, AnT.Height);
             // установить корректную перспективу
-            Gl.glOrtho(-100, 100, -100, 100, -1, 1000);
+            Gl.glOrtho(-100, 100, -100, 100, -10, 10000);
             //Glu.gluPerspective(60.0f, (float)AnT.Width / AnT.Height, 1.0f, 1000.0f);
 
             Gl.glMatrixMode(Gl.GL_MODELVIEW);//break
@@ -213,9 +253,9 @@ namespace Rotation
             Gl.glPopMatrix();
 
             Gl.glColor4f(0.56f, 0.56f, 0.56f, 1.0f);
-            Glut.glutWireSphere(30, 16, 16);
-            //Glut.glutWireCube(30);
-            //Glut.glutSolidTeapot(30);
+            //Glut.glutWireSphere(30, 16, 16);
+            //Glut.glutWireCube(40);
+            Glut.glutSolidTeapot(30);
         }
         #endregion
 
