@@ -10,7 +10,11 @@ namespace Rotation
     /// </summary>
     public partial class MainForm : Form
     {
-        #region Variables        
+        #region Variables
+        const double RAD2DEG = 180 / Math.PI; //Degrees from Radians
+        const double DEG2RAD = Math.PI / 180; //Radians from Degrees
+        static double[] RotationMatrix = new double[16];
+
         float positionZ = -200.0f;
 
         double roll = 0;
@@ -34,6 +38,37 @@ namespace Rotation
         private double delta = 1;
         #endregion
 
+        #endregion
+
+        #region Functions
+        static void euler2rm(double angle_x, double angle_y, double angle_z, double[] mat)
+        {
+            double A, B, C, D, E, F, AD, BD = 0.0f;
+
+            angle_x = angle_x * DEG2RAD; 	//X
+            angle_y = angle_y * DEG2RAD; 	//Y
+            angle_z = angle_z * DEG2RAD; 	//Z
+
+            A = Math.Cos(angle_x);
+            B = Math.Sin(angle_x);
+            C = Math.Cos(angle_y);
+            D = Math.Sin(angle_y);
+            E = Math.Cos(angle_z);
+            F = Math.Sin(angle_z);
+            AD = A * D;
+            BD = B * D;
+            mat[0] = C * E;
+            mat[1] = -C * F;
+            mat[2] = D;
+            mat[4] = BD * E + A * F;
+            mat[5] = -BD * F + A * E;
+            mat[6] = -B * C;
+            mat[8] = -AD * E + B * F;
+            mat[9] = AD * F + B * E;
+            mat[10] = A * C;
+            mat[3] = mat[7] = mat[11] = mat[12] = mat[13] = mat[14] = 0;
+            mat[15] = 1;
+        }
         #endregion
 
         public MainForm()
@@ -96,23 +131,24 @@ namespace Rotation
         {
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT | Gl.GL_STENCIL_BUFFER_BIT);
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
-            Gl.glPushMatrix();
             Gl.glLoadIdentity();
 
+            euler2rm(roll, yaw, pitch, RotationMatrix);
+
             // X Axis
-            matModelView[0] = 0;
-            matModelView[1] = -0.7071068;
-            matModelView[2] = 0.7071068;
+            matModelView[0] = RotationMatrix[0];
+            matModelView[1] = RotationMatrix[4];
+            matModelView[2] = RotationMatrix[8];
 
             // Y Axis
-            matModelView[4] = 0;
-            matModelView[5] = 0.7071068;
-            matModelView[6] = 0.7071068;
+            matModelView[4] = RotationMatrix[1];
+            matModelView[5] = RotationMatrix[5];
+            matModelView[6] = RotationMatrix[9];
 
             // Z Axis
-            matModelView[8] = -1;
-            matModelView[9] = 0;
-            matModelView[10] = 0;
+            matModelView[8] = RotationMatrix[2];
+            matModelView[9] = RotationMatrix[6];
+            matModelView[10] = RotationMatrix[10];
 
             // Position Z
             matModelView[14] = positionZ;
