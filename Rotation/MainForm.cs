@@ -17,12 +17,12 @@ namespace Rotation
 
         float positionZ = -200.0f;
 
-        double roll = 0;
-        double pitch = 0;
-        double yaw = 0;
-        double roll_old = 0;
-        double pitch_old = 0;
-        double yaw_old = 0;
+        int roll = 0;
+        int pitch = 0;
+        int yaw = 0;
+        int roll_old = 0;
+        int pitch_old = 0;
+        int yaw_old = 0;
 
         double[] matModelView = new double[16];     // Rotation matrix values.
         float[] tmpModelViewMat = new float[16];
@@ -119,7 +119,7 @@ namespace Rotation
             matModelView[14] = positionZ;
             Gl.glMultMatrixd(matModelView);
 
-            RefreshLabels(); // Update GUI "ModelView" matrix labels
+            RefreshLabels(); // Update "ModelView" matrix labels
             DrawModel();
 
             Gl.glPopMatrix();
@@ -132,6 +132,7 @@ namespace Rotation
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT | Gl.GL_STENCIL_BUFFER_BIT);
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
             Gl.glLoadIdentity();
+            Gl.glMultMatrixd(matModelView);
 
             euler2rm(roll, yaw, pitch, RotationMatrix);
 
@@ -153,13 +154,13 @@ namespace Rotation
             // Position Z
             matModelView[14] = positionZ;
 
-            Gl.glLoadMatrixd(matModelView);
+            Gl.glGetDoublev(Gl.GL_MODELVIEW, matModelView);
 
             Gl.glPushMatrix();
             Gl.glLoadIdentity();
             matModelView[14] = positionZ;
             Gl.glMultMatrixd(matModelView);
-
+            
             RefreshLabels(); // Update GUI "ModelView" matrix labels
             DrawModel();
 
@@ -299,8 +300,8 @@ namespace Rotation
         void BtnResetRotationClick(object sender, EventArgs e)
         {
             trckBarRollX.Value = 0;
-            trckBarPitchZ.Value = 0;
             trckBarYawY.Value = 0;
+            trckBarPitchZ.Value = 0;            
 
             lblRollValue.Text = "0";
             lblYawValue.Text = "0";
